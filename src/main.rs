@@ -3,11 +3,17 @@ use std::{fs::File, io::Read};
 fn main() -> std::io::Result<()> {
     let mut file = File::open("big.bin")?;
     let mut buf = [0u8; 64];
-    let n = file.read(&mut buf)?;
+    let mut total_bytes = 0;
 
     loop {
+        let n = file.read(&mut buf)?;
+
+        if n == 0 {
+            break;
+        }
+
         for (i, row) in buf[..n].chunks(16).enumerate() {
-            print!("{:08x}", i * 16);
+            print!("{:08x}:", total_bytes + i * 16);
 
             for (j, byte) in row.iter().enumerate() {
                 if j % 2 == 0 {
@@ -17,12 +23,24 @@ fn main() -> std::io::Result<()> {
                 print!("{:02x}", byte);
             }
 
+            let l = 2 * row.len() + (row.len() + 1) / 2;
+
+            for _ in 0..40 - l {
+                print!(" ");
+            }
+
+            print!("  ");
+
+            for byte in row {
+                match byte {
+                    0x20..=0x7e => print!("{}", *byte as char),
+                    _ => print!("."),
+                }
+            }
             println!("");
         }
 
-        if buf.len() == 64 {
-            break;
-        }
+        total_bytes += n;
     }
 
     Ok(())
