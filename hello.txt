@@ -1,2 +1,23 @@
-hello team :)
-new line
+The quick brown fox jumps over the lazy dog.
+THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG.
+0123456789
+!@#$%^&*()_+-=[]{}|;:',.<>/?`~
+
+Hello, world! 👋
+Rust 🦀 is fast, safe, and fun.
+
+Tabs:	One	Two	Three
+Spaces:    1    2    3
+Newlines follow:
+
+
+
+This line comes after three blank lines.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+abcdefghijklmnopqrstuvwxyz
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+:)
+
+End of file.
