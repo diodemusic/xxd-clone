@@ -23,7 +23,7 @@ fn main() -> std::io::Result<()> {
                 print!("{:02x}", byte);
             }
 
-            let l = 2 * row.len() + (row.len() + 1) / 2;
+            let l = 2 * row.len() + (row.len().div_ceil(2));
 
             for _ in 0..40 - l {
                 print!(" ");
@@ -37,7 +37,7 @@ fn main() -> std::io::Result<()> {
                     _ => print!("."),
                 }
             }
-            println!("");
+            println!();
         }
 
         total_bytes += n;
