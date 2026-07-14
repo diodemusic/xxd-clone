@@ -10,20 +10,18 @@ fn read_file(filename: &str) -> Vec<u8> {
     }
 }
 
-fn parse_row(row: usize, chunk: &[u8], output: &mut String) {
-    output.push_str(&format!("{:08x}: ", row * 16));
-
-    for (i, byte) in chunk.iter().enumerate() {
-        match byte {
-            0x20..=0x7e => output.push_str(&format!("{:02x}", byte)),
-            _ => output.push_str(&format!("{:02x}", byte).red().to_string()),
-        }
-
-        if i % 2 == 1 {
-            output.push(' ');
-        }
+fn parse_byte(i: usize, byte: &u8, output: &mut String) {
+    match byte {
+        0x20..=0x7e => output.push_str(&format!("{:02x}", byte)),
+        _ => output.push_str(&format!("{:02x}", byte).red().to_string()),
     }
 
+    if i % 2 == 1 {
+        output.push(' ');
+    }
+}
+
+fn parse_ascii(chunk: &[u8], output: &mut String) {
     let chunk_budget = chunk.len() * 2 + chunk.len() / 2;
 
     for _ in chunk_budget..40 {
@@ -38,8 +36,17 @@ fn parse_row(row: usize, chunk: &[u8], output: &mut String) {
             _ => output.push_str(&".".red().to_string()),
         }
     }
-
     output.push('\n');
+}
+
+fn parse_row(row: usize, chunk: &[u8], output: &mut String) {
+    output.push_str(&format!("{:08x}: ", row * 16));
+
+    for (i, byte) in chunk.iter().enumerate() {
+        parse_byte(i, byte, output);
+    }
+
+    parse_ascii(chunk, output);
 }
 
 fn main() -> std::io::Result<()> {
@@ -50,7 +57,7 @@ fn main() -> std::io::Result<()> {
         parse_row(row, chunk, &mut output);
     }
 
-    println!("{output}");
+    print!("{output}");
 
     Ok(())
 }
