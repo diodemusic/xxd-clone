@@ -3,12 +3,11 @@ THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG.
 0123456789
 !@#$%^&*()_+-=[]{}|;:',.<>/?`~
 
-Hello, world! 👋
-Rust 🦀 is fast, safe, and fun.
+Hello, world 🦀
 
 Tabs:	One	Two	Three
 Spaces:    1    2    3
-Newlines follow:
+Newlines:
 
 
 
