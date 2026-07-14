@@ -1,3 +1,4 @@
+use colored::Colorize;
 use std::fs;
 
 fn read_file(filename: &str) -> Vec<u8> {
@@ -13,7 +14,10 @@ fn parse_row(row: usize, chunk: &[u8], output: &mut String) {
     output.push_str(&format!("{:08x}: ", row * 16));
 
     for (i, byte) in chunk.iter().enumerate() {
-        output.push_str(&format!("{:02x}", byte));
+        match byte {
+            0x20..=0x7e => output.push_str(&format!("{:02x}", byte)),
+            _ => output.push_str(&format!("{:02x}", byte).red().to_string()),
+        }
 
         if i % 2 == 1 {
             output.push(' ');
@@ -31,7 +35,7 @@ fn parse_row(row: usize, chunk: &[u8], output: &mut String) {
     for byte in chunk {
         match byte {
             0x20..=0x7e => output.push_str(&format!("{}", *byte as char)),
-            _ => output.push('.'),
+            _ => output.push_str(&".".red().to_string()),
         }
     }
 
