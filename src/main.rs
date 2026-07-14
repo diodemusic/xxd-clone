@@ -26,6 +26,8 @@ fn parse_row(row: usize, chunk: &[u8], output: &mut String) {
         output.push(' ');
     }
 
+    output.push(' ');
+
     for byte in chunk {
         match byte {
             0x20..=0x7e => output.push_str(&format!("{}", *byte as char)),
