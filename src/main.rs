@@ -11,35 +11,38 @@ fn read_file(filename: &str) -> Vec<u8> {
     bytes
 }
 
-fn parse_row(row: usize, chunk: &[u8]) {
-    print!("{:08x}: ", row * 16);
+fn parse_row(row: usize, chunk: &[u8], output: &mut String) {
+    output.push_str(&format!("{:08x}: ", row * 16));
 
     for (i, byte) in chunk.iter().enumerate() {
-        print!("{:02x}", byte);
+        output.push_str(&format!("{:02x}", byte));
 
         if i % 2 == 1 {
-            print!(" ");
+            output.push(' ');
         }
     }
 
-    print!(" ");
+    output.push(' ');
 
     for byte in chunk {
         match byte {
-            0x20..=0x7e => print!("{}", *byte as char),
-            _ => print!("."),
+            0x20..=0x7e => output.push_str(&format!("{}", *byte as char)),
+            _ => output.push('.'),
         }
     }
 
-    println!();
+    output.push('\n');
 }
 
 fn main() -> std::io::Result<()> {
+    let mut output = String::new();
     let bytes = read_file("hello.txt");
 
     for (row, chunk) in bytes.chunks(16).enumerate() {
-        parse_row(row, chunk);
+        parse_row(row, chunk, &mut output);
     }
+
+    println!("{output}");
 
     Ok(())
 }
