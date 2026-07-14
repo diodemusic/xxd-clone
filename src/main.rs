@@ -1,14 +1,12 @@
 use std::fs;
 
 fn read_file(filename: &str) -> Vec<u8> {
-    let bytes_result = fs::read(&filename);
+    let bytes_result = fs::read(filename);
 
-    let bytes = match bytes_result {
+    match bytes_result {
         Ok(bytes) => bytes,
         Err(error) => panic!("Error reading file: {error:?}"),
-    };
-
-    bytes
+    }
 }
 
 fn parse_row(row: usize, chunk: &[u8], output: &mut String) {
@@ -22,7 +20,11 @@ fn parse_row(row: usize, chunk: &[u8], output: &mut String) {
         }
     }
 
-    output.push(' ');
+    let chunk_budget = chunk.len() * 2 + chunk.len() / 2;
+
+    for _ in chunk_budget..40 {
+        output.push(' ');
+    }
 
     for byte in chunk {
         match byte {
