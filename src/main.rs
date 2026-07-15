@@ -10,14 +10,10 @@ fn read_file(filename: &str) -> Vec<u8> {
     }
 }
 
-fn parse_byte(i: usize, byte: &u8, output: &mut String) {
+fn parse_byte(byte: &u8, output: &mut String) {
     match byte {
         0x20..=0x7e => output.push_str(&format!("{:02x}", byte)),
         _ => output.push_str(&format!("{:02x}", byte).red().to_string()),
-    }
-
-    if i % 2 == 1 {
-        output.push(' ');
     }
 }
 
@@ -43,7 +39,11 @@ fn parse_row(row: usize, chunk: &[u8], output: &mut String) {
     output.push_str(&format!("{:08x}: ", row * 16));
 
     for (i, byte) in chunk.iter().enumerate() {
-        parse_byte(i, byte, output);
+        parse_byte(byte, output);
+
+        if i % 2 == 1 {
+            output.push(' ');
+        }
     }
 
     parse_ascii(chunk, output);
